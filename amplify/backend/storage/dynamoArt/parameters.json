@@ -1,0 +1,7 @@
+{
+    "tableName": "dynamoArt",
+    "partitionKeyName": "title",
+    "partitionKeyType": "S",
+    "sortKeyName": "year",
+    "sortKeyType": "N"
+}

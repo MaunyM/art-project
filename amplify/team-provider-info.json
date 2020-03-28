@@ -10,6 +10,14 @@
             "StackName": "amplify-art-project-dev-161002",
             "StackId": "arn:aws:cloudformation:eu-west-1:671537780349:stack/amplify-art-project-dev-161002/349abcc0-7106-11ea-a955-0a1dada20d7a",
             "AmplifyAppId": "d1p1r06ew4k6j3"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d1p1r06ew4k6j3",
+                    "type": "cicd"
+                }
+            }
         }
     }
 }

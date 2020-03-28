@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/art",
+            "lambdaFunction": "art",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "api",
+    "apiName": "api",
+    "functionArns": [
+        {
+            "lambdaFunction": "art"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-art-project-dev-161002-authRole",
+        "unAuthRoleName": "amplify-art-project-dev-161002-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "art",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
