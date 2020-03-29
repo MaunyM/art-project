@@ -2,17 +2,17 @@
     "paths": [
         {
             "name": "/art",
-            "lambdaFunction": "art",
+            "lambdaFunction": "artprojectf699c609",
             "privacy": {
                 "open": true
             }
         }
     ],
-    "resourceName": "api",
-    "apiName": "api",
+    "resourceName": "artResource",
+    "apiName": "artResource",
     "functionArns": [
         {
-            "lambdaFunction": "art"
+            "lambdaFunction": "artprojectf699c609"
         }
     ],
     "privacy": {
@@ -24,7 +24,7 @@
     "dependsOn": [
         {
             "category": "function",
-            "resourceName": "art",
+            "resourceName": "artprojectf699c609",
             "attributes": [
                 "Name",
                 "Arn"

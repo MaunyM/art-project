@@ -1,0 +1,13 @@
+.ArtItemCard {
+  margin: 5px;
+
+  .ant-card-cover {
+    display: flex;
+    justify-content: center;
+
+    * {
+      width: inherit;
+      height: 120px;
+    }
+  }
+}

@@ -9,17 +9,21 @@
 		"dynamoArt": {
 			"service": "DynamoDB",
 			"providerPlugin": "awscloudformation"
+		},
+		"dynamoecd23707": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
 		}
 	},
 	"function": {
-		"art": {
+		"artprojectf699c609": {
 			"build": true,
 			"providerPlugin": "awscloudformation",
 			"service": "Lambda",
 			"dependsOn": [
 				{
 					"category": "storage",
-					"resourceName": "dynamoArt",
+					"resourceName": "dynamoecd23707",
 					"attributes": [
 						"Name",
 						"Arn"
@@ -33,13 +37,13 @@
 		}
 	},
 	"api": {
-		"api": {
+		"artResource": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
 				{
 					"category": "function",
-					"resourceName": "art",
+					"resourceName": "artprojectf699c609",
 					"attributes": [
 						"Name",
 						"Arn"

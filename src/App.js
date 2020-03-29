@@ -7,6 +7,10 @@ import {NavLink, Route, Switch} from "react-router-dom";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
 
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+
 function App() {
   return (
       <div className="App">

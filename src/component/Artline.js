@@ -3,7 +3,7 @@ import ArtlineItem from "./ArtlineItem";
 import './ArtLine.scss';
 
 let start = 1800;
-let end = 1900;
+let end = 2020;
 let duration = end - start;
 
 function Artline({items}) {
@@ -14,7 +14,7 @@ function Artline({items}) {
     const yearHeight = ref.current.clientHeight / duration;
     const itemWithHeight = [...items].reverse().reduce((acc, item) => [...acc,
           {...item, height: (acc[acc.length - 1].year - item.year) * yearHeight}],
-        [{year: 1900, height: 0}])
+        [{year: end, height: 0}])
     setItemsWithHeight(itemWithHeight.reverse())
   }, [items]);
   return (

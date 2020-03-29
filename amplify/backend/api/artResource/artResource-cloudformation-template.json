@@ -14,15 +14,15 @@
         },
     
     
-          "functionartName": {
+          "functionartprojectf699c609Name": {
             "Type": "String",
-            "Default": "functionartName"
+            "Default": "functionartprojectf699c609Name"
           },
         
           
-          "functionartArn": {
+          "functionartprojectf699c609Arn": {
             "Type": "String",
-            "Default": "functionartArn"
+            "Default": "functionartprojectf699c609Arn"
           }
         
           
@@ -45,16 +45,16 @@
         
         
         
-      "api": {
+      "artResource": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "api",
+          "Name": "artResource",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "api"
+              "title": "artResource"
             },
             "host": {
                 "Fn::Join": [
@@ -176,7 +176,7 @@
                             
                             {
                                 
-                                "Ref": "functionartArn"
+                                "Ref": "functionartprojectf699c609Arn"
                             },
                             
                             "/invocations"
@@ -275,7 +275,7 @@
                           
                           {
                             
-                            "Ref": "functionartArn"
+                            "Ref": "functionartprojectf699c609Arn"
                           },
                           
                           "/invocations"
@@ -332,12 +332,12 @@
                   
         
         
-        "functionartPermissionapi": {
+        "functionartprojectf699c609PermissionartResource": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionartName"
+                        "Ref":  "functionartprojectf699c609Name"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -356,7 +356,7 @@
                             },
                             ":",
                             {
-                                "Ref": "api"
+                                "Ref": "artResource"
                             },
                             "/*/*/*"
                         ]
@@ -367,7 +367,7 @@
         
         
         
-      "DeploymentAPIGWapi": {
+      "DeploymentAPIGWartResource": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -381,7 +381,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "api"
+            "Ref": "artResource"
           }
         }
       }
@@ -389,15 +389,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "artResource"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "api"
+          "Value": "artResource"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "api"}
+          "Value": {"Ref": "artResource"}
         }
     }
   }

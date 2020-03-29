@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
 import {Layout} from 'antd';
 import Artline from "../component/Artline";
+import {API} from "aws-amplify";
+
+let scan = async () => {
+  console.log('calling api');
+  return API.get('artResource', '/art');
+};
 
 let items = [
   {
@@ -33,6 +39,15 @@ let items = [
 ]
 
 function HomePage() {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await scan();
+      response.sort((a, b) => a.year - b.year)
+      setItems(response);
+    }
+    fetch();
+  }, []);
   return (
       <Layout>
         <Layout.Content>
