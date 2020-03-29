@@ -1,0 +1,99 @@
+.App {
+  background: linear-gradient(225deg, #fff, #f0f5ff);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+
+  .ant-layout-sider{
+    background: transparent;
+  }
+
+  .ant-layout-footer {
+    background: linear-gradient(130deg, rgba(135, 59, 244, .7), #6c2fc3);
+  }
+
+  .ant-layout-header {
+    background: transparent;
+  }
+
+  .ant-layout-header.main {
+    justify-content: end;
+  }
+
+  .ant-layout-header.main .ant-menu-item:hover {
+    color: #873bf4;
+  }
+
+
+  .ant-layout-header.main .ant-menu-item-selected {
+    color: #873bf4;
+    background-color: transparent;
+  }
+
+  .ant-layout-header.main .ant-menu-item-selected >a,
+  .ant-layout-header.main .ant-menu-item>a.active {
+    box-shadow: inset 0 2px 0 #873bf4;
+    background-color: transparent;
+    color: #873bf4;
+  }
+
+  .ant-layout-header.main .ant-menu-item:hover {
+    color: #1890ff;
+  }
+
+
+  .ant-layout-header.main .ant-menu-item {
+    color: #697b8c;
+  }
+
+  .ant-timeline-item-tail {
+    border-left: 2px solid #a471f2;
+  }
+
+  .ant-menu {
+    background: transparent;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .ant-layout-sider .title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 3rem;
+  }
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

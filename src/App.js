@@ -1,50 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {API} from 'aws-amplify';
-
-let post = async () => {
-  console.log('calling api');
-  const response = await API.post('api', '/art', {
-    body: {
-      id: '1',
-      name: 'hello amplify!'
-    }
-  });
-  alert(JSON.stringify(response, null, 2));
-};
-let get = async () => {
-  console.log('calling api');
-  const response = await API.get('api', '/art/object/1');
-  alert(JSON.stringify(response, null, 2));
-};
-let list = async () => {
-  console.log('calling api');
-  const response = await API.get('api', '/art/1');
-  alert(JSON.stringify(response, null, 2));
-};
+import './App.scss';
+import 'antd/dist/antd.css';
+import {Layout, Menu} from 'antd';
+import {CrownOutlined,} from '@ant-design/icons';
+import {NavLink, Route, Switch} from "react-router-dom";
+import AdminPage from "./pages/AdminPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-        <p> Pick a file</p>
-        <button onClick={post}>POST</button>
-        <button onClick={get}>GET</button>
-        <button onClick={list}>LIST</button>
+        <Layout>
+          <Layout.Header className={'main'}>
+            <Menu>
+              <Menu.Item>
+                <NavLink to="/admin">
+                  <CrownOutlined/>
+                  Administration
+                </NavLink>
+              </Menu.Item>
+
+            </Menu>
+          </Layout.Header>
+
+
+          <Switch>
+            <Route path="/admin">
+              <AdminPage/>
+            </Route>
+            <Route path="/">
+              <HomePage/>
+            </Route>
+          </Switch>
+
+          <Layout.Footer/>
+        </Layout>
       </div>
   );
 }
