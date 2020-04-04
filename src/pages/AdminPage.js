@@ -1,17 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
 import {API} from 'aws-amplify';
-import {Button, Layout, Row} from 'antd';
+import {Button, Layout} from 'antd';
 import {NavLink} from "react-router-dom";
 import {HomeOutlined} from "@ant-design/icons";
 import ArtItemCard from "../component/ArtItemCard";
 import './AdminPage.scss';
 import ArtForm from "../component/ArtForm";
 
-let get = async () => {
-  console.log('calling api');
-  const response = await API.get('artResource', '/art/object/1');
-};
 let scan = async () => {
   console.log('calling api');
   return API.get('artResource', '/art');
@@ -26,7 +22,6 @@ function AdminPage() {
     await API.post('artResource', '/art', {
       body: art
     });
-    setSelectedItem({})
     fetch();
   };
 
@@ -50,13 +45,19 @@ function AdminPage() {
     setSelectedItem(item)
   }
 
+  const handleCardsClick = () =>
+  {
+    setSelectedItem({})
+  }
+
   return (
       <Layout className={'AdminPage'}>
         <Layout.Content>
           <div className={'content'}>
-            <div className={'ArtItemCards'}>
+            <div className={'ArtItemCards'} onClick={handleCardsClick}>
               {items.map(
-                  item => <ArtItemCard item={item}
+                  item => <ArtItemCard key={item.id}
+                                       item={item}
                                        selected={item.id === selectedItem.id}
                                        remove={remove}
                                        edit={edit}/>)}

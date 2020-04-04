@@ -15,7 +15,7 @@ function ArtItemCard({item, remove, edit, selected}) {
             />
           }
           actions={[
-            <EditOutlined onClick={() => edit(item)} key="edit"/>,
+            <EditOutlined onClick={(e) => {e.stopPropagation();  edit(item);} } key="edit"/>,
             <DeleteOutlined onClick={() => remove(item)} key="delete"/>,
           ]}
       >

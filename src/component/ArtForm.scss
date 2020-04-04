@@ -10,6 +10,20 @@
     justify-content: center;
   }
 
+  .ant-input-affix-wrapper.art-input {
+    margin: 5px;
+  }
+
+  .rating {
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    color: rgba(191, 191, 191, 1);
+    .label {
+      margin-right: 5px;
+    }
+  }
+
   img {
     box-shadow: 0 8px 20px rgba(143, 168, 191, .85);
     border: solid 1px #697b8c;
