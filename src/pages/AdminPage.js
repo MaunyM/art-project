@@ -7,6 +7,7 @@ import {HomeOutlined} from "@ant-design/icons";
 import ArtItemCard from "../component/ArtItemCard";
 import './AdminPage.scss';
 import ArtForm from "../component/ArtForm";
+import {v4 as uuidv4} from 'uuid';
 
 let scan = async () => {
   console.log('calling api');
@@ -16,18 +17,30 @@ let scan = async () => {
 function AdminPage() {
 
   const [items, setItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({})
+  const [selectedItem, setSelectedItem] = useState({id: uuidv4()})
 
-  let post = async (art) => {
-    await API.post('artResource', '/art', {
-      body: art
-    });
-    fetch();
+  const handleUpdate = async (art) => {
+    if (valid(art)) {
+      const response = await API.post('artResource', '/art', {
+        body: art
+      });
+      await fetch();
+      console.log('je cherche ', response.data.key, 'dans', items)
+      const find = items.find(item => item.id === response.data.key)
+      console.log('trouvé', find)
+
+    } else {
+      console.log('pas valide', art)
+    }
   };
+
+  const valid = (art) =>
+      art.title && art.year && art.description && art.artist && art.preview
 
   const fetch = async () => {
     const response = await scan();
     response.sort((a, b) => a.year - b.year)
+    console.log("la vrai reponse", response)
     setItems(response);
   }
 
@@ -37,7 +50,7 @@ function AdminPage() {
 
   let remove = async (item) => {
     await API.del('artResource', `/art/object/${item.id}`);
-    setSelectedItem({})
+    setSelectedItem({id: uuidv4()})
     fetch();
   }
 
@@ -45,9 +58,8 @@ function AdminPage() {
     setSelectedItem(item)
   }
 
-  const handleCardsClick = () =>
-  {
-    setSelectedItem({})
+  const handleCardsClick = () => {
+    setSelectedItem({id: uuidv4()})
   }
 
   return (
@@ -69,7 +81,7 @@ function AdminPage() {
             <Button icon={<HomeOutlined/>}>Retour</Button>
           </NavLink>
           <div className={'Form'}>
-            <ArtForm onPostClick={post} artItem={selectedItem}/>
+            <ArtForm onArtUpdate={handleUpdate} artItem={selectedItem}/>
           </div>
         </Layout.Sider>
       </Layout>

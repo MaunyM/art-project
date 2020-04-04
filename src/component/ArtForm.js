@@ -11,13 +11,19 @@ import ArtTags from "./ArtTags";
 
 const {TextArea} = Input;
 
-function ArtForm({artItem, onPostClick, onCancelClick}) {
+function ArtForm({artItem, onArtUpdate, onCancelClick}) {
 
   const [myArtItem, setMyArtItem] = useState(artItem);
 
   useEffect(() => {
+    console.log('effect artItem', artItem)
     setMyArtItem(artItem)
   }, [artItem]);
+
+  useEffect(() => {
+    console.log('effect myArtItem', myArtItem)
+    onArtUpdate(myArtItem);
+  }, [myArtItem]);
 
   const handleNewTag = (newTag) => {
     const tags = myArtItem.tags ? [...myArtItem.tags, newTag] : [newTag];
@@ -55,7 +61,7 @@ function ArtForm({artItem, onPostClick, onCancelClick}) {
         <Input allowClear={true}
                value={myArtItem.title}
                onChange={e => setMyArtItem(
-                   {myArtItem, title: e.target.value})}
+                   {...myArtItem, title: e.target.value})}
                placeholder={'Titre'}
                className={'art-input'}
         />
@@ -89,12 +95,10 @@ function ArtForm({artItem, onPostClick, onCancelClick}) {
         <ArtTags tags={myArtItem.tags}
                  handleNewTag={handleNewTag}
                  handleCloseTag={handleCloseTag}/>
-        {myArtItem.id ?
-            <Button.Group>
-              <Button onClick={() => onPostClick(myArtItem)}>Modifier</Button>
-              <Button onClick={() => onCancelClick()}>Annuler</Button>
-            </Button.Group> :
-            <Button onClick={() => onPostClick(myArtItem)}>Ajouter</Button>
+        {myArtItem.id &&
+        <Button.Group>
+          <Button onClick={() => onCancelClick()}>Annuler</Button>
+        </Button.Group>
         }
       </form>);
 }
