@@ -1,20 +1,21 @@
 import React from 'react';
 import './ArtLineItem.scss';
 import {Card} from "antd";
-import {DeleteOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import './ArtItemCard.scss';
 
-function ArtItemCard({item, remove}) {
+function ArtItemCard({item, remove, edit, selected}) {
   return (
       <Card
-          className={"ArtItemCard"}
+          className={`ArtItemCard ${selected && 'selected'}`}
           cover={
             <img
-                alt="example"
+                alt={item.title}
                 src={item.preview}
             />
           }
           actions={[
+            <EditOutlined onClick={() => edit(item)} key="edit"/>,
             <DeleteOutlined onClick={() => remove(item)} key="delete"/>,
           ]}
       >

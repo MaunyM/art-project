@@ -71,7 +71,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-art-project-dev-161002-deployment",
-					"S3Key": "amplify-builds/artprojectf699c609-2f6f4c48414b61465033-build.zip"
+					"S3Key": "amplify-builds/artprojectf699c609-326342515743445a646b-build.zip"
 				}
 			}
 		},

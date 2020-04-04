@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import {Layout} from 'antd';
 import Artline from "../component/Artline";
 import {API} from "aws-amplify";
+import ArtDraggable from "../component/ArtDraggable";
 
 let scan = async () => {
   console.log('calling api');
@@ -53,7 +54,9 @@ function HomePage() {
         <Layout.Content>
           <Artline items={items}/>
         </Layout.Content>
-        <Layout.Sider> <span
+        <Layout.Sider>
+          <ArtDraggable/>
+          <span
             className={'title'}>Histoire de l'art</span></Layout.Sider>
       </Layout>
   );

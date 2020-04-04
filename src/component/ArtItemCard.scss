@@ -1,5 +1,20 @@
 .ArtItemCard {
   margin: 5px;
+  border-radius: 5px 5px 0px 0px;
+
+  &.selected {
+    background: linear-gradient(130deg, rgba(135, 59, 244, .7), #6c2fc3);
+    box-shadow: 0 4px 10px rgba(143, 168, 191, .85);
+
+    .ant-card-meta-title, {
+      color: rgba(255, 255, 255, 0.85)
+    }
+
+
+    .ant-card-meta-description {
+      color: rgba(255, 255, 255, 0.45)
+    }
+  }
 
   .ant-card-cover {
     display: flex;
@@ -9,5 +24,9 @@
       width: inherit;
       height: 120px;
     }
+  }
+
+  .selected {
+
   }
 }

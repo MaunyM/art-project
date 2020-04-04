@@ -1,0 +1,20 @@
+.ArtForm {
+
+
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+
+  .cover {
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
+    box-shadow: 0 8px 20px rgba(143, 168, 191, .85);
+    border: solid 1px #697b8c;
+    width: inherit;
+    height: 120px;
+  }
+
+}

@@ -204,7 +204,9 @@ app.post(path, function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId
         || UNAUTH;
   }
-  req.body['id'] = req.apiGateway.event.requestContext.requestId
+  if (!req.body['id']) {
+    req.body['id'] = req.apiGateway.event.requestContext.requestId
+  }
 
   let putItemParams = {
     TableName: tableName,
