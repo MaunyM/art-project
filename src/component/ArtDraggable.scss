@@ -1,5 +1,8 @@
 .ArtDraggable {
-  height: 30px;
-  width: 30px;
-  background-color: #7ec1ff;
+  img {
+    height: 100px;
+  }
+  .title {
+    margin-left: 20px;
+  }
 }
