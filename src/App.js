@@ -10,13 +10,18 @@ import HomePage from "./pages/HomePage";
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import Backend from 'react-dnd-html5-backend'
+import TouchBackend from 'react-dnd-touch-backend'
 import {DndProvider} from "react-dnd";
+
+import {isMobile} from 'react-device-detect';
 
 Amplify.configure(awsconfig);
 
+const backend = isMobile ? TouchBackend : Backend
+
 function App() {
   return (
-      <DndProvider backend={Backend}>
+      <DndProvider backend={backend}>
         <div className="App">
           <Layout>
             <Layout.Header className={'main'}>
