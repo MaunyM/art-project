@@ -7,10 +7,18 @@ import ArtDraggable from "../component/ArtDraggable";
 import {buildTick} from "../service/service";
 import './HomePage.scss';
 import sample from 'lodash/sample';
+import ArtlineSvg from "../component/ArtlineSVG";
 
 const conf = {
+  padding: 10,
+  height: 2000,
   startYear: 1400,
-  margin: 50
+  yearMarginError: 10,
+  endYear: new Date().getFullYear(),
+  selectBar: {
+    width: 10,
+    corner: 5
+  }
 }
 
 let scan = async () => {
@@ -27,7 +35,7 @@ function HomePage() {
 
   const handleDrop = (year) => {
     setDropYear(year)
-    if (Math.abs(year - itemDraggable.year) < conf.margin) {
+    if (Math.abs(year - itemDraggable.year) < conf.yearMarginError) {
       setMessage('')
       setItems(e => [...e, itemDraggable])
       setItemDraggable(sample(allItems))
@@ -50,7 +58,6 @@ function HomePage() {
       setAllItems(response);
     }
     fetch();
-    setItems(buildTick(conf.startYear).map(year => ({year})))
   }, []);
 
   useEffect(() => {
@@ -58,16 +65,17 @@ function HomePage() {
       setItemDraggable(sample(allItems))
     }
   }, [allItems]);
+
   return (
 
       <Layout>
         <div className={'HomePage'}>
           <div className={'line'}>
-            <Artline items={items} onDrop={handleDrop}/>
+            <ArtlineSvg items={items} onDrop={handleDrop} conf={conf}/>
           </div>
           <div className={'side'}>
             <span className={'main-title'}>Histoire de l'art</span>
-            <span>Déplacez ce tableau sur la frise chronologique</span>
+            <span>Placez ce tableau sur la frise chronologique</span>
             <ArtDraggable item={itemDraggable}/>
             <span className={'message'}>{message}</span>
           </div>

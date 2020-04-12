@@ -1,5 +1,5 @@
 import React from 'react';
-import {buildTick} from "./service";
+import {buildTick, positionToYear, yearToPosition} from "./service";
 
 test('build trick work', () => {
   // WHEN
@@ -45,10 +45,122 @@ test('build trick with wrong start', () => {
   expect(res.length).toEqual(0);
 });
 
-test('build trick with step equal to zero', () => {
+test('convert Year to position start', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
   // WHEN
-  const res = buildTick(1400, 2000, 0);
+  const res = yearToPosition(1400, conf);
 
   // THEN
-  expect(res.length).toEqual(0);
+  expect(res).toEqual(0);
+});
+
+test('convert Year to position end', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = yearToPosition(conf.endYear, conf);
+
+  // THEN
+  expect(res).toEqual(2000 - 10 - 10);
+});
+
+test('convert Year to position middle', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = yearToPosition(1710, conf);
+
+  // THEN
+  expect(res).toEqual((2000 - 10 - 10) / 2);
+});
+
+test('convert Year to position 1600', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = yearToPosition(1600, conf);
+
+  // THEN
+  expect(res).toEqual(639);
+});
+
+test('convert position to Year start', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = positionToYear(0, conf);
+
+  // THEN
+  expect(res).toEqual(1400);
+});
+
+test('convert position to Year end', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = positionToYear(2000 - 10 - 10, conf);
+
+  // THEN
+  expect(res).toEqual(new Date().getFullYear());
+});
+
+test('convert position to Year middle', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = positionToYear((2000 - 10 - 10) / 2, conf);
+
+  // THEN
+  expect(res).toEqual(1710);
+});
+
+test('convert position to Year 1600', () => {
+  // GIVEN
+  const conf = {
+    padding: 10,
+    height: 2000,
+    startYear: 1400,
+    endYear: new Date().getFullYear()
+  }
+  // WHEN
+  const res = positionToYear(639, conf);
+
+  // THEN
+  expect(res).toEqual(1600);
 });

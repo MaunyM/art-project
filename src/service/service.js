@@ -13,4 +13,15 @@ function buildTick(start, end = date.getFullYear(), step = 100) {
   return ticks.includes(end) ? ticks : [...ticks, end];
 }
 
-export {buildTick}
+const yearToPosition = (year, conf) =>
+    Math.round((year - conf.startYear) * yearInPixel(conf));
+
+function yearInPixel(conf) {
+  const durationInYear = conf.endYear - conf.startYear;
+  return (conf.height - 2 * conf.padding) / durationInYear;
+}
+
+const positionToYear = (position, conf) =>
+    Math.round((position / yearInPixel(conf)) + conf.startYear);
+
+export {buildTick, yearToPosition, positionToYear, yearInPixel}

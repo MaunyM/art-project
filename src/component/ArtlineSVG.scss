@@ -1,0 +1,26 @@
+.ArtlineSVG {
+  .item-tail {
+    stroke: #a471f2;
+    stroke-width: 2px;
+  }
+
+  .select-tail {
+    fill: rgba(164, 113, 242, 0.73);
+  }
+
+
+  .year {
+    stroke: #575759;
+    stroke-width: 2px;
+    fill: white;
+  }
+
+  .item.year {
+    stroke: #1890ff;
+  }
+
+  .year-text {
+    font-weight: bold;
+    fill: rgba(0, 0, 0, 0.65);
+  }
+}
