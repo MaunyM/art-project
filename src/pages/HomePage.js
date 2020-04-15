@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
 import {Layout} from 'antd';
-import Artline from "../component/Artline";
 import {API} from "aws-amplify";
 import ArtDraggable from "../component/ArtDraggable";
-import {buildTick} from "../service/service";
 import './HomePage.scss';
 import sample from 'lodash/sample';
 import ArtlineSvg from "../component/ArtlineSVG";
+import {filterItemsTooNear, filterItemTooNear} from "../service/yearService";
 
 const conf = {
   padding: 10,
   height: 2000,
   startYear: 1400,
   yearMarginError: 10,
+  yearRemoving: 5,
   endYear: new Date().getFullYear(),
   selectBar: {
     width: 10,
@@ -22,7 +22,6 @@ const conf = {
 }
 
 let scan = async () => {
-  console.log('calling api');
   return API.get('artResource', '/art');
 };
 
@@ -31,13 +30,14 @@ function HomePage() {
   const [itemDraggable, setItemDraggable] = useState([]);
   const [items, setItems] = useState([]);
   const [message, setMessage] = useState('');
-  const [dropYear, setDropYear] = useState();
 
   const handleDrop = (year) => {
-    setDropYear(year)
     if (Math.abs(year - itemDraggable.year) < conf.yearMarginError) {
       setMessage('')
-      setItems(e => [...e, itemDraggable])
+      setItems(
+          e => [...filterItemsTooNear(e, [itemDraggable.year],
+              conf.yearRemoving),
+            itemDraggable])
       setItemDraggable(sample(allItems))
     } else {
       if (year > itemDraggable.year) {
@@ -47,7 +47,6 @@ function HomePage() {
         setMessage(`Cette oeuvre a été peinte après ${year}`)
       }
     }
-
   }
 
   useEffect(() => {

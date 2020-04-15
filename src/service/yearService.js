@@ -24,4 +24,18 @@ function yearInPixel(conf) {
 const positionToYear = (position, conf) =>
     Math.round((position / yearInPixel(conf)) + conf.startYear);
 
-export {buildTick, yearToPosition, positionToYear, yearInPixel}
+function isTooNear(elem, list, margin) {
+  return list.some(e => Math.abs(e - elem) <= margin)
+}
+
+function oneIsTooNear(a, b, margin) {
+  return  Math.abs(a - b) <= margin
+}
+
+const filterTooNear =
+    (a, b, margin) => a.filter(e => !isTooNear(e, b, margin))
+
+const filterItemsTooNear =
+    (a, b, margin) => a.filter(e => !oneIsTooNear(e.year, b.year, margin))
+
+export {buildTick, yearToPosition, positionToYear, yearInPixel, isTooNear, filterTooNear, filterItemsTooNear}

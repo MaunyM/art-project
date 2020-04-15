@@ -1,40 +1,34 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './ArtlineSVG.scss';
-import {useDrop} from "react-dnd";
 import {
-  buildTick,
+  buildTick, filterTooNear,
   positionToYear,
   yearInPixel,
   yearToPosition
-} from "../service/service";
+} from "../service/yearService";
 
 function ArtlineSvg({items, onDrop, conf}) {
 
   const ref = useRef(null)
-  const years = buildTick(conf.startYear);
+  const [years, setYears] = useState(buildTick(conf.startYear));
   const [overYear, setOverYear] = useState(0);
   const [selectedBar, setSelectedBar] = useState({});
   const [overVisible, setOverVisible] = useState(false);
 
-  const [collectedProps, drop] = useDrop({
-    accept: "ART_DRAGGABLE", drop: (otherItem, monitor) => {
-      const offset = monitor.getSourceClientOffset();
-      const dropTargetXy = ref.current.getBoundingClientRect();
-      const timeBeforeNext = 620;
-      const yearHeight = 2000 / timeBeforeNext;
-      console.log('offset', offset.y)
-      console.log('dropTargetXy', dropTargetXy)
-      console.log('clientHeight', ref.current.clientHeight)
-      console.log('yearHeight', yearHeight)
-      console.log(
-          Math.floor(+1400 + ((offset.y - dropTargetXy.top) / yearHeight)))
-    }
-  })
-
   useEffect(() => {
     setSelectedBar(
-        {...conf.selectBar, height: conf.yearMarginError * yearInPixel(conf)})
+        {
+          ...conf.selectBar,
+          height: conf.yearMarginError * yearInPixel(conf) * 2
+        })
   }, [conf])
+
+  useEffect(() => {
+    console.log("years", years)
+    const afterYears = filterTooNear(years, items.map(item => item.year), 5)
+    setYears(afterYears);
+    console.log("filter", afterYears)
+  }, [items])
 
   function handleMouserMove(event) {
     if (overVisible) {
@@ -44,7 +38,7 @@ function ArtlineSvg({items, onDrop, conf}) {
   }
 
   return (
-      <svg ref={drop} height={conf.height} className={'ArtlineSVG'}
+      <svg height={conf.height} className={'ArtlineSVG'}
            onMouseMove={handleMouserMove}
            onMouseEnter={() => setOverVisible(true)}
            onMouseLeave={() => setOverVisible(false)}
@@ -83,7 +77,7 @@ function ArtlineSvg({items, onDrop, conf}) {
             <g transform={`translate(0 ${yearToPosition(item.year, conf)})`}>
               <text x="20" y="15" className="year-text">{item.year}</text>
               <circle cx="10" cy="10" r="4" className={'item year'}/>
-              <image x="80" y="15" href={item.preview} height="100"
+              <image x="80" y="0" href={item.preview} height="100"
                      filter="url(#dropshadow)"/>
             </g>
         )}

@@ -1,5 +1,11 @@
 import React from 'react';
-import {buildTick, positionToYear, yearToPosition} from "./service";
+import {
+  buildTick, filterItemsTooNear, filterItemTooNear,
+  filterTooNear,
+  isTooNear,
+  positionToYear,
+  yearToPosition
+} from "./yearService";
 
 test('build trick work', () => {
   // WHEN
@@ -164,3 +170,97 @@ test('convert position to Year 1600', () => {
   // THEN
   expect(res).toEqual(1600);
 });
+
+test('isTooNear', () => {
+  // GIVEN
+  const year = 1502;
+  const years = [1400, 1500, 1600];
+  // WHEN
+  const res = isTooNear(year, years, 2);
+
+  // THEN
+  expect(res).toBeTruthy();
+});
+
+test('isNotTooNear', () => {
+  // GIVEN
+  const year = 1504;
+  const years = [1400, 1500, 1600];
+  // WHEN
+  const res = isTooNear(year, years, 2);
+
+  // THEN
+  expect(res).toBeFalsy();
+});
+
+test('isTooNear empty', () => {
+  // GIVEN
+  const year = 1502;
+  const years = [];
+  // WHEN
+  const res = isTooNear(year, years, 2);
+
+  // THEN
+  expect(res).toBeFalsy();
+});
+
+test('filterTooNear One', () => {
+  // GIVEN
+  const items = [1502];
+  const years = [1400, 1500, 1600];
+  // WHEN
+  const res = filterTooNear(years, items, 2);
+
+  // THEN
+  expect(res).toHaveLength(2);
+  expect(res).toContain(1400);
+  expect(res).toContain(1600);
+});
+
+test('filterTooNear None', () => {
+  // GIVEN
+  const items = [1550];
+  const years = [1400, 1500, 1600];
+  // WHEN
+  const res = filterTooNear(years, items, 2);
+
+  // THEN
+  expect(res).toHaveLength(3);
+  expect(res).toContain(1400);
+  expect(res).toContain(1500);
+  expect(res).toContain(1600);
+});
+
+test('filterTooNear All', () => {
+  // GIVEN
+  const items = [1502, 1401, 1602];
+  const years = [1400, 1500, 1600];
+  // WHEN
+  const res = filterTooNear(years, items, 2);
+
+  // THEN
+  expect(res).toHaveLength(0);
+});
+
+test('filterItemTooNear One', () => {
+  // GIVEN
+  const item = {year: 1502};
+  const years = [{year: 1400}, {year: 1500}, {year: 1600}];
+  // WHEN
+  const res = filterItemsTooNear(years, item, 2);
+
+  // THEN
+  expect(res).toHaveLength(2);
+});
+
+test('filterItemsTooNear None', () => {
+  // GIVEN
+  const item = {year: 1545};
+  const years = [{year: 1400}, {year: 1500}, {year: 1600}];
+  // WHEN
+  const res = filterItemsTooNear(years, item, 2);
+
+  // THEN
+  expect(res).toHaveLength(3);
+});
+
