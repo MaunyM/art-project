@@ -1,5 +1,4 @@
 import React from 'react';
-import './ArtLineItem.scss';
 import {Card} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import './ArtItemCard.scss';

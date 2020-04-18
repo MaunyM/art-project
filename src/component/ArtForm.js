@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, Input, Rate, Tooltip} from "antd";
 import {
   CalendarOutlined,
@@ -14,16 +14,15 @@ const {TextArea} = Input;
 function ArtForm({artItem, onArtUpdate, onCancelClick}) {
 
   const [myArtItem, setMyArtItem] = useState(artItem);
+  const ref = useRef();
 
   useEffect(() => {
-    console.log('effect artItem', artItem)
     setMyArtItem(artItem)
   }, [artItem]);
 
   useEffect(() => {
-    console.log('effect myArtItem', myArtItem)
     onArtUpdate(myArtItem);
-  }, [myArtItem]);
+  }, [myArtItem, onArtUpdate]);
 
   const handleNewTag = (newTag) => {
     const tags = myArtItem.tags ? [...myArtItem.tags, newTag] : [newTag];
@@ -35,10 +34,16 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
         {...myArtItem, tags: myArtItem.tags.filter(tag => tag !== closedTag)})
   }
 
+  function handleImageLoaded(e) {
+    console.log('loaded', ref.current.naturalWidth, ref.current.naturalHeight)
+  }
+
   return (
       <form className={'ArtForm'}>
         <div className={'cover'}>
           <img
+              ref={ref}
+              onLoad={handleImageLoaded}
               alt={myArtItem.title ? artItem.title : 'preview'}
               src={myArtItem.preview}
           />

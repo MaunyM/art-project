@@ -10,7 +10,6 @@ import ArtForm from "../component/ArtForm";
 import {v4 as uuidv4} from 'uuid';
 
 let scan = async () => {
-  console.log('calling api');
   return API.get('artResource', '/art');
 };
 
@@ -19,18 +18,16 @@ function AdminPage() {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({id: uuidv4()})
 
+  useEffect(() => {
+    fetch();
+  }, []);
+
   const handleUpdate = async (art) => {
     if (valid(art)) {
-      const response = await API.post('artResource', '/art', {
+      await API.post('artResource', '/art', {
         body: art
       });
       await fetch();
-      console.log('je cherche ', response.data.key, 'dans', items)
-      const find = items.find(item => item.id === response.data.key)
-      console.log('trouvé', find)
-
-    } else {
-      console.log('pas valide', art)
     }
   };
 
@@ -40,13 +37,9 @@ function AdminPage() {
   const fetch = async () => {
     const response = await scan();
     response.sort((a, b) => a.year - b.year)
-    console.log("la vrai reponse", response)
     setItems(response);
   }
 
-  useEffect(() => {
-    fetch();
-  }, []);
 
   let remove = async (item) => {
     await API.del('artResource', `/art/object/${item.id}`);

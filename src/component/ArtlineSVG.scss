@@ -8,6 +8,14 @@
     fill: rgba(164, 113, 242, 0.73);
   }
 
+  .down-arrow, .up-arrow {
+    fill: #575759;
+    transform: scale(0.05,0.05);
+  }
+
+  .up-arrow {
+    transform: scale(0.05,0.05) scale(1, -1) translate(0, -454px);
+  }
 
   .year {
     stroke: #575759;

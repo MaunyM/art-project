@@ -7,7 +7,9 @@ import {
   yearToPosition
 } from "../service/yearService";
 
-function ArtlineSvg({items, onDrop, conf}) {
+const yearCenter = 10;
+
+function ArtlineSvg({items, onDrop, conf, help}) {
 
   const ref = useRef(null)
   const [years, setYears] = useState(buildTick(conf.startYear));
@@ -24,10 +26,8 @@ function ArtlineSvg({items, onDrop, conf}) {
   }, [conf])
 
   useEffect(() => {
-    console.log("years", years)
-    const afterYears = filterTooNear(years, items.map(item => item.year), 5)
-    setYears(afterYears);
-    console.log("filter", afterYears)
+    setYears(
+        current => filterTooNear(current, items.map(item => item.year), 5));
   }, [items])
 
   function handleMouserMove(event) {
@@ -53,6 +53,21 @@ function ArtlineSvg({items, onDrop, conf}) {
             </feMerge>
           </filter>
         </defs>
+        {help.top &&
+        <g transform={`translate(0 ${yearToPosition(help.top,
+            conf)})`}>
+          <path className={'down-arrow'}
+                d="M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937   c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937   c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z"/>
+        </g>
+        }
+        {help.bottom &&
+        <g transform={`translate(0 ${yearToPosition(help.bottom,
+            conf)})`}>
+          <path className={'up-arrow'}
+                d="M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937   c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937   c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z"/>
+        </g>
+        }
+
         <line x1={conf.padding} y1="0" x2={conf.padding} y2="2000"
               className={'item-tail'} ref={ref}/>
         {overVisible && <g
@@ -68,13 +83,16 @@ function ArtlineSvg({items, onDrop, conf}) {
                 className={'select-tail'}/>
         </g>}
         {years.map(year =>
-            <g transform={`translate(0 ${yearToPosition(year, conf)})`}>
-              <circle cx="10" cy="10" r="4" className={'year'}/>
+            <g key={year}
+               transform={`translate(${conf.padding
+               - yearCenter} ${yearToPosition(year, conf)})`}>
+              <circle cx={yearCenter} cy={yearCenter} r="4" className={'year'}/>
               <text x="20" y="15" className="year-text">{year}</text>
             </g>
         )}
         {items.map(item =>
-            <g transform={`translate(0 ${yearToPosition(item.year, conf)})`}>
+            <g transform={`translate(${conf.padding
+            - yearCenter}  ${yearToPosition(item.year, conf)})`}>
               <text x="20" y="15" className="year-text">{item.year}</text>
               <circle cx="10" cy="10" r="4" className={'item year'}/>
               <image x="80" y="0" href={item.preview} height="100"

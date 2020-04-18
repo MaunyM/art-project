@@ -1,6 +1,5 @@
 import {
   collide,
-  moveToRight,
   translateToRight,
   translationToRight,
   uncollide
