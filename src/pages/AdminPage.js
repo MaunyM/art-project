@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
 import {API} from 'aws-amplify';
 import {Button, Layout} from 'antd';
@@ -22,14 +22,20 @@ function AdminPage() {
     fetch();
   }, []);
 
-  const handleUpdate = async (art) => {
-    if (valid(art)) {
-      await API.post('artResource', '/art', {
-        body: art
-      });
-      await fetch();
-    }
-  };
+  const memoizedHandleUpdate = useCallback(
+      (art) => {
+        const handleUpdate = async(art) => {
+          if (valid(art)) {
+            await API.post('artResource', '/art', {
+              body: art
+            });
+            await fetch();
+          }
+        }
+        handleUpdate(art);
+      },
+      []
+  );
 
   const valid = (art) =>
       art.title && art.year && art.description && art.artist && art.preview
@@ -74,7 +80,7 @@ function AdminPage() {
             <Button icon={<HomeOutlined/>}>Retour</Button>
           </NavLink>
           <div className={'Form'}>
-            <ArtForm onArtUpdate={handleUpdate} artItem={selectedItem}/>
+            <ArtForm onArtUpdate={memoizedHandleUpdate} artItem={selectedItem}/>
           </div>
         </Layout.Sider>
       </Layout>

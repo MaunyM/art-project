@@ -4,7 +4,8 @@ import {Layout} from 'antd';
 import {API} from "aws-amplify";
 import ArtItem from "../component/ArtItem";
 import './HomePage.scss';
-import sample from 'lodash/sample';
+import sampleSize from 'lodash/sampleSize';
+import tail from 'lodash/tail';
 import ArtlineSvg from "../component/ArtlineSVG";
 import {filterItemsTooNear} from "../service/yearService";
 
@@ -14,6 +15,7 @@ const conf = {
   startYear: 1400,
   yearMarginError: 10,
   yearRemoving: 5,
+  previewHeight: 100,
   endYear: new Date().getFullYear(),
   selectBar: {
     width: 10,
@@ -27,6 +29,7 @@ let scan = async () => {
 
 function HomePage() {
   const [allItems, setAllItems] = useState([]);
+  const [gameItems, setGameItems] = useState([]);
   const [currentItem, setCurrentItem] = useState([]);
   const [items, setItems] = useState([]);
   const [message, setMessage] = useState('');
@@ -39,7 +42,7 @@ function HomePage() {
           e => [...filterItemsTooNear(e, [currentItem.year],
               conf.yearRemoving),
             currentItem])
-      setCurrentItem(sample(allItems))
+      setGameItems(current => tail(current))
       setHelp({})
     } else {
       if (year > currentItem.year) {
@@ -65,9 +68,13 @@ function HomePage() {
 
   useEffect(() => {
     if (allItems.length) {
-      setCurrentItem(sample(allItems))
+      setGameItems(sampleSize(allItems, 5))
     }
   }, [allItems]);
+
+  useEffect(() => {
+    setCurrentItem(gameItems[0])
+  }, [gameItems]);
 
   return (
 
@@ -79,9 +86,11 @@ function HomePage() {
           </div>
           <div className={'side'}>
             <span className={'main-title'}>Histoire de l'art</span>
-            <span className={'instruction'}>Placez ce tableau sur la frise chronologique</span>
-            <ArtItem item={currentItem}/>
-            <span className={'message'}>{message}</span>
+            {currentItem && <>
+              <span className={'instruction'}>Placez ce tableau sur la frise chronologique</span>
+              <ArtItem item={currentItem}/>
+              <span className={'message'}>{message}</span>
+            </>}
           </div>
         </div>
       </Layout>

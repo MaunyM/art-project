@@ -35,7 +35,11 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
   }
 
   function handleImageLoaded(e) {
-    console.log('loaded', ref.current.naturalWidth, ref.current.naturalHeight)
+    if (!myArtItem.width) {
+      const width = ref.current.naturalWidth;
+      const height = ref.current.naturalHeight;
+      setMyArtItem(current => ({...current, width, height}))
+    }
   }
 
   return (
@@ -47,6 +51,8 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
               alt={myArtItem.title ? artItem.title : 'preview'}
               src={myArtItem.preview}
           />
+          {myArtItem.height}
+          {myArtItem.width}
         </div>
         <Tooltip placement="topLeft" title="Difficulté">
           <div className={'rating art-input ant-input-affix-wrapper'}>
@@ -88,10 +94,8 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
         />
         <TextArea rows={4}
                   value={myArtItem.description}
-                  onChange={e => setMyArtItem({
-                    ...myArtItem,
-                    description: e.target.value
-                  })}
+                  onChange={e => setMyArtItem(
+                      {...myArtItem, description: e.target.value})}
                   autoSize={{minRows: 15, maxRows: 15}}
                   allowClear={true}
                   placeholder={'Description'}

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './ArtlineSVG.scss';
 import {
   buildTick, filterTooNear,
@@ -6,6 +6,7 @@ import {
   yearInPixel,
   yearToPosition
 } from "../service/yearService";
+import {uncollide} from "../service/2dService";
 
 const yearCenter = 10;
 
@@ -16,6 +17,7 @@ function ArtlineSvg({items, onDrop, conf, help}) {
   const [overYear, setOverYear] = useState(0);
   const [selectedBar, setSelectedBar] = useState({});
   const [overVisible, setOverVisible] = useState(false);
+  const [rects, setRects] = useState([]);
 
   useEffect(() => {
     setSelectedBar(
@@ -25,10 +27,28 @@ function ArtlineSvg({items, onDrop, conf, help}) {
         })
   }, [conf])
 
+  const memoizedItemToRect = useCallback(
+      (items) => {
+        const x = 80 + conf.padding - yearCenter
+        const height = conf.previewHeight
+        items.sort((a, b) => a.year - b.year)
+        return uncollide(items.map(item => {
+              const y = yearToPosition(item.year, conf)
+              const width = (item.width / item.height) * height
+              return {x, y, height, width, item}
+            })
+        )
+      },
+      [conf]
+  );
+
   useEffect(() => {
+    // filter years
     setYears(
         current => filterTooNear(current, items.map(item => item.year), 5));
-  }, [items])
+    // compute rect
+    setRects(memoizedItemToRect(items))
+  }, [items, memoizedItemToRect])
 
   function handleMouserMove(event) {
     if (overVisible) {
@@ -90,13 +110,18 @@ function ArtlineSvg({items, onDrop, conf, help}) {
               <text x="20" y="15" className="year-text">{year}</text>
             </g>
         )}
-        {items.map(item =>
-            <g transform={`translate(${conf.padding
-            - yearCenter}  ${yearToPosition(item.year, conf)})`}>
-              <text x="20" y="15" className="year-text">{item.year}</text>
-              <circle cx="10" cy="10" r="4" className={'item year'}/>
-              <image x="80" y="0" href={item.preview} height="100"
-                     filter="url(#dropshadow)"/>
+        {rects.map(rect => <g key={rect.item.id}>
+              <g transform={`translate(${conf.padding
+              - yearCenter} ${yearToPosition(rect.item.year, conf)})`}>
+                <text x="20" y="15" className="year-text">{rect.item.year}</text>
+                <circle cx="10" cy="10" r="4" className={'item year'}/>
+              </g>
+              <g transform={`translate(${rect.x} ${rect.y})`}>
+                <image x='0' y='0' href={rect.item.preview}
+                       height={rect.height}
+                       width={rect.width}
+                       filter="url(#dropshadow)"/>
+              </g>
             </g>
         )}
 
