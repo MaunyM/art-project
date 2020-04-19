@@ -1,82 +1,50 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import 'antd/dist/antd.css';
-import {Button, Layout} from 'antd';
-import {NavLink} from "react-router-dom";
-import {HomeOutlined} from "@ant-design/icons";
-import ArtItemCard from "../component/ArtItemCard";
+import React from 'react';
+import {Layout, Menu} from 'antd';
+import {NavLink, Route, Switch} from "react-router-dom";
+import {
+  BorderOutlined,
+  HomeOutlined,
+  UserOutlined
+} from "@ant-design/icons";
 import './AdminPage.scss';
-import ArtForm from "../component/ArtForm";
-import {v4 as uuidv4} from 'uuid';
-import {delArt, postArt, scanArt} from "../service/artService";
+import AdminArtContainer from "../container/AdminArtContainer";
+import AdminPainterContainer from "../container/AdminPainterContainer";
 
 function AdminPage() {
 
-  const [items, setItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({id: uuidv4()})
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
-  const memoizedHandleUpdate = useCallback(
-      (art) => {
-        const handleUpdate = async(art) => {
-          if (valid(art)) {
-            await postArt(art);
-            await fetch();
-          }
-        }
-        handleUpdate(art);
-      },
-      []
-  );
-
-  const valid = (art) =>
-      art.title && art.year && art.description && art.artist && art.preview
-
-  const fetch = async () => {
-    const response = await scanArt();
-    response.sort((a, b) => a.year - b.year)
-    setItems(response);
-  }
-
-
-  let remove = async (art) => {
-    await delArt(art)
-    setSelectedItem({id: uuidv4()})
-    fetch();
-  }
-
-  let edit = (item) => {
-    setSelectedItem(item)
-  }
-
-  const handleCardsClick = () => {
-    setSelectedItem({id: uuidv4()})
-  }
-
   return (
       <Layout className={'AdminPage'}>
-        <Layout.Content>
-          <div className={'content'}>
-            <div className={'ArtItemCards'} onClick={handleCardsClick}>
-              {items.map(
-                  item => <ArtItemCard key={item.id}
-                                       item={item}
-                                       selected={item.id === selectedItem.id}
-                                       remove={remove}
-                                       edit={edit}/>)}
-            </div>
-          </div>
-        </Layout.Content>
-        <Layout.Sider width={500}>
-          <NavLink to="/">
-            <Button icon={<HomeOutlined/>}>Retour</Button>
-          </NavLink>
-          <div className={'Form'}>
-            <ArtForm onArtUpdate={memoizedHandleUpdate} artItem={selectedItem}/>
-          </div>
-        </Layout.Sider>
+        <Menu mode="horizontal">
+
+          <Menu.Item key="back">
+            <NavLink to="/" exact={true}>
+              <HomeOutlined/>
+              Retour
+            </NavLink>
+          </Menu.Item>
+
+          <Menu.Item key="art">
+            <NavLink to="/admin/" exact={true}>
+              <BorderOutlined/>
+              Tableaux
+            </NavLink>
+          </Menu.Item>
+          <Menu.Item key="painer" exact={true}>
+            <NavLink to="/admin/painter">
+              <UserOutlined/>
+              Artistes
+            </NavLink>
+          </Menu.Item>
+        </Menu>
+        <Switch>
+          <Route path="/admin/painter">
+            <AdminPainterContainer/>
+          </Route>
+          <Route path="/">
+            <AdminArtContainer/>
+          </Route>
+        </Switch>
+
       </Layout>
 
   );

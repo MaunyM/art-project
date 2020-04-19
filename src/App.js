@@ -17,7 +17,7 @@ function App() {
       <div className="App">
         <Layout>
           <Layout.Header className={'main'}>
-            <Menu>
+            <Menu className={'main-menu'}>
               <Menu.Item>
                 <NavLink to="/admin">
                   <CrownOutlined/>

@@ -3,6 +3,7 @@
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
+  font-size: 1rem;
 
   .ant-layout-sider{
     background: transparent;
@@ -30,7 +31,10 @@
     background-color: transparent;
   }
 
-  .ant-layout-header.main .ant-menu-item-selected >a,
+  .ant-menu-item-selected > a {
+    color: #697b8c;
+  }
+
   .ant-layout-header.main .ant-menu-item>a.active {
     box-shadow: inset 0 2px 0 #873bf4;
     background-color: transparent;
@@ -50,7 +54,7 @@
     border-left: 2px solid #a471f2;
   }
 
-  .ant-menu {
+  .main-menu.ant-menu {
     background: transparent;
     display: flex;
     justify-content: flex-end;

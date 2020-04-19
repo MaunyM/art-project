@@ -5,13 +5,13 @@
 		"env": {
 			"Type": "String"
 		},
-		"storagedynamoecd23707Name": {
+		"storagepainterName": {
 			"Type": "String",
-			"Default": "storagedynamoecd23707Name"
+			"Default": "storagepainterName"
 		},
-		"storagedynamoecd23707Arn": {
+		"storagepainterArn": {
 			"Type": "String",
-			"Default": "storagedynamoecd23707Arn"
+			"Default": "storagepainterArn"
 		}
 	},
 	"Conditions": {
@@ -36,12 +36,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"artFunction",
+						"lambdaPainter",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"artFunction",
+									"lambdaPainter",
 									"-",
 									{
 										"Ref": "env"
@@ -71,7 +71,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-art-project-dev-161002-deployment",
-					"S3Key": "amplify-builds/artprojectf699c609-784a6a34383549393467-build.zip"
+					"S3Key": "amplify-builds/lambdaPainter-71766b52704975644a76-build.zip"
 				}
 			}
 		},
@@ -81,12 +81,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"artprojectLambdaRolec9dc45ee",
+						"artprojectLambdaRolea1ea8b96",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"artprojectLambdaRolec9dc45ee",
+									"artprojectLambdaRolea1ea8b96",
 									"-",
 									{
 										"Ref": "env"
@@ -165,14 +165,14 @@
 							],
 							"Resource": [
 								{
-									"Ref": "storagedynamoecd23707Arn"
+									"Ref": "storagepainterArn"
 								},
 								{
 									"Fn::Join": [
 										"/",
 										[
 											{
-												"Ref": "storagedynamoecd23707Arn"
+												"Ref": "storagepainterArn"
 											},
 											"index/*"
 										]

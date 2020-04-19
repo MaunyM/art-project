@@ -51,8 +51,6 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
               alt={myArtItem.title ? artItem.title : 'preview'}
               src={myArtItem.preview}
           />
-          {myArtItem.height}
-          {myArtItem.width}
         </div>
         <Tooltip placement="topLeft" title="Difficulté">
           <div className={'rating art-input ant-input-affix-wrapper'}>

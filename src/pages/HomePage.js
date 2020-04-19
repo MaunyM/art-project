@@ -7,7 +7,7 @@ import sampleSize from 'lodash/sampleSize';
 import tail from 'lodash/tail';
 import ArtlineSvg from "../component/ArtlineSVG";
 import {filterItemsTooNear} from "../service/yearService";
-import {scanArt} from "../service/artService";
+import {scanArt} from "../service/apiService";
 
 const conf = {
   padding: 50,
