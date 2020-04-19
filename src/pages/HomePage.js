@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
 import {Layout} from 'antd';
-import {API} from "aws-amplify";
 import ArtItem from "../component/ArtItem";
 import './HomePage.scss';
 import sampleSize from 'lodash/sampleSize';
 import tail from 'lodash/tail';
 import ArtlineSvg from "../component/ArtlineSVG";
 import {filterItemsTooNear} from "../service/yearService";
+import {scanArt} from "../service/artService";
 
 const conf = {
   padding: 50,
@@ -23,9 +23,6 @@ const conf = {
   }
 }
 
-let scan = async () => {
-  return API.get('artResource', '/art');
-};
 
 function HomePage() {
   const [allItems, setAllItems] = useState([]);
@@ -59,7 +56,7 @@ function HomePage() {
   useEffect(() => {
     // Start
     const fetch = async () => {
-      const response = await scan();
+      const response = await scanArt();
       response.sort((a, b) => a.year - b.year)
       setAllItems(response);
     }

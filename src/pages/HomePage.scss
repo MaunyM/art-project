@@ -4,13 +4,13 @@
   overflow: hidden;
 
   .line {
-    overflow: scroll;
+    overflow-Y: scroll;
+    overflow-x: hidden;
     flex-grow: 1;
     display: flex;
   }
 
   .side {
-    overflow: scroll;
     flex-grow: 2;
     display: flex;
     flex-direction: column;

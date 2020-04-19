@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
-import {API} from 'aws-amplify';
 import {Button, Layout} from 'antd';
 import {NavLink} from "react-router-dom";
 import {HomeOutlined} from "@ant-design/icons";
@@ -8,10 +7,7 @@ import ArtItemCard from "../component/ArtItemCard";
 import './AdminPage.scss';
 import ArtForm from "../component/ArtForm";
 import {v4 as uuidv4} from 'uuid';
-
-let scan = async () => {
-  return API.get('artResource', '/art');
-};
+import {delArt, postArt, scanArt} from "../service/artService";
 
 function AdminPage() {
 
@@ -26,9 +22,7 @@ function AdminPage() {
       (art) => {
         const handleUpdate = async(art) => {
           if (valid(art)) {
-            await API.post('artResource', '/art', {
-              body: art
-            });
+            await postArt(art);
             await fetch();
           }
         }
@@ -41,14 +35,14 @@ function AdminPage() {
       art.title && art.year && art.description && art.artist && art.preview
 
   const fetch = async () => {
-    const response = await scan();
+    const response = await scanArt();
     response.sort((a, b) => a.year - b.year)
     setItems(response);
   }
 
 
-  let remove = async (item) => {
-    await API.del('artResource', `/art/object/${item.id}`);
+  let remove = async (art) => {
+    await delArt(art)
     setSelectedItem({id: uuidv4()})
     fetch();
   }

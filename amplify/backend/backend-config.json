@@ -13,6 +13,10 @@
 		"dynamoecd23707": {
 			"service": "DynamoDB",
 			"providerPlugin": "awscloudformation"
+		},
+		"painter": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
 		}
 	},
 	"function": {
@@ -34,10 +38,43 @@
 					}
 				}
 			]
+		},
+		"lambdaPainter": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "painter",
+					"attributes": [
+						"Name",
+						"Arn"
+					],
+					"attributeEnvMap": {
+						"Name": "TABLE_NAME",
+						"Arn": "TABLE_ARN"
+					}
+				}
+			]
 		}
 	},
 	"api": {
-		"artResource": {
+		"apiPainter": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "lambdaPainter",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"apiArt": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
