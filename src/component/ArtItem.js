@@ -11,7 +11,8 @@ function ArtItem({item}) {
           }
           <div className={'info'}>
             <span className={'title'}>{item.title}</span>
-            <span className={'artist'}>{item.artist}</span>
+            {item.artist && <span
+                className={'artist'}>{item.artist.name}</span>}
           </div>
         </>}
       </div>
