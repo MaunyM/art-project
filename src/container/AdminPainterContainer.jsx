@@ -19,7 +19,7 @@ function AdminPainterContainer() {
 
   const fetch = async () => {
     const response = await scanPainter();
-    response.sort((a, b) => a.year - b.year)
+    response.sort((a, b) => a.birthYear - b.birthYear)
     setItems(response);
   }
 

@@ -20,7 +20,7 @@ function ArtItemCard({item, remove, edit, selected}) {
       >
         <Card.Meta
             title={item.title}
-            description={item.artist}
+            description={item.artist.name}
         />
       </Card>
   );

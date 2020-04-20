@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Input, Rate, Tooltip} from "antd";
+import {Button, Input, Rate, Select, Tooltip} from "antd";
 import {
   CalendarOutlined,
   PictureOutlined,
@@ -11,7 +11,7 @@ import ArtTags from "./ArtTags";
 
 const {TextArea} = Input;
 
-function ArtForm({artItem, onArtUpdate, onCancelClick}) {
+function ArtForm({artItem, painters, onArtUpdate, onCancelClick}) {
 
   const [myArtItem, setMyArtItem] = useState(artItem);
   const ref = useRef();
@@ -40,6 +40,11 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
       const height = ref.current.naturalHeight;
       setMyArtItem(current => ({...current, width, height}))
     }
+  }
+
+  function handleArtistChanged(e) {
+    setMyArtItem(
+        {...myArtItem, artist: {id: e.key, name: e.label}})
   }
 
   return (
@@ -74,14 +79,12 @@ function ArtForm({artItem, onArtUpdate, onCancelClick}) {
                placeholder={'Titre'}
                className={'art-input'}
         />
-        <Input allowClear={true}
-               value={myArtItem.artist}
-               onChange={e => setMyArtItem(
-                   {...myArtItem, artist: e.target.value})}
-               placeholder={'Artiste'}
-               prefix={<UserOutlined/>}
-               className={'art-input'}
-        />
+        <Select placeholder={'Artiste'}
+                value={myArtItem.artist && {key: myArtItem.artist.id}}
+                labelInValue={true} onSelect={handleArtistChanged}>
+          {painters.map(artist => <Select.Option key={artist.id}
+              value={artist.id}>{artist.name}</Select.Option>)}
+        </Select>
         <Input allowClear={true}
                value={myArtItem.preview}
                onChange={e => setMyArtItem(

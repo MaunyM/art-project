@@ -3,11 +3,12 @@ import ArtItemCard from "../component/ArtItemCard";
 import ArtForm from "../component/ArtForm";
 import React, {useCallback, useEffect, useState} from "react";
 import {v4 as uuidv4} from "uuid";
-import {delArt, postArt, scanArt} from "../service/apiService";
+import {delArt, postArt, scanArt, scanPainter} from "../service/apiService";
 
 function AdminArtContainer() {
 
   const [items, setItems] = useState([]);
+  const [painters, setPainters] = useState([]);
   const [selectedItem, setSelectedItem] = useState({id: uuidv4()})
 
   useEffect(() => {
@@ -21,6 +22,9 @@ function AdminArtContainer() {
     const response = await scanArt();
     response.sort((a, b) => a.year - b.year)
     setItems(response);
+    const responsePainter = await scanPainter();
+    responsePainter.sort((a, b) => a.birthYear - b.birthYear)
+    setPainters(responsePainter);
   }
 
   let remove = async (art) => {
@@ -69,7 +73,7 @@ function AdminArtContainer() {
         <Layout.Sider width={500}>
           <div className={'Form'}>
             <ArtForm onArtUpdate={memoizedHandleUpdate}
-                     artItem={selectedItem}/>
+                     artItem={selectedItem} painters={painters}/>
           </div>
         </Layout.Sider>
       </Layout>)
