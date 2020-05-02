@@ -97,7 +97,7 @@ function ArtForm({artItem, painters, onArtUpdate, onCancelClick}) {
                   value={myArtItem.description}
                   onChange={e => setMyArtItem(
                       {...myArtItem, description: e.target.value})}
-                  autoSize={{minRows: 15, maxRows: 20}}
+                  autoSize={{minRows: 15, maxRows: 15}}
                   allowClear={true}
                   placeholder={'Description'}
                   className={'art-input'}
