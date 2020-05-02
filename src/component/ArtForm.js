@@ -79,6 +79,7 @@ function ArtForm({artItem, painters, onArtUpdate, onCancelClick}) {
                className={'art-input'}
         />
         <Select placeholder={'Artiste'}
+                className={'art-input'}
                 value={myArtItem.artist && {key: myArtItem.artist.id}}
                 labelInValue={true} onSelect={handleArtistChanged}>
           {painters.map(artist => <Select.Option key={artist.id}
@@ -96,7 +97,7 @@ function ArtForm({artItem, painters, onArtUpdate, onCancelClick}) {
                   value={myArtItem.description}
                   onChange={e => setMyArtItem(
                       {...myArtItem, description: e.target.value})}
-                  autoSize={{minRows: 15, maxRows: 15}}
+                  autoSize={{minRows: 15, maxRows: 20}}
                   allowClear={true}
                   placeholder={'Description'}
                   className={'art-input'}

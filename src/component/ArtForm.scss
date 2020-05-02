@@ -8,8 +8,9 @@
     justify-content: center;
   }
 
-  .ant-input-affix-wrapper.art-input {
+  .ant-input-affix-wrapper.art-input, .ant-select.art-input {
     margin: 5px;
+    max-height: none;
   }
 
   .rating {
