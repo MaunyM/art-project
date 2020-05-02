@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Input} from "antd";
-import {CalendarOutlined} from "@ant-design/icons";
-
+import {CalendarOutlined, PictureOutlined} from "@ant-design/icons";
 import './ArtForm.scss';
 
 const {TextArea} = Input;
@@ -20,6 +19,12 @@ function PainterForm({item, onUpdate, onCancelClick}) {
 
   return (
       <form className={'ArtForm'}>
+        <div className={'cover'}>
+          <img
+              alt={myArtItem.name ? myArtItem.name : 'portrait'}
+              src={myArtItem.portrait}
+          />
+        </div>
         <Input allowClear={true}
                value={myArtItem.name}
                onChange={e => setMyArtItem(
@@ -41,6 +46,14 @@ function PainterForm({item, onUpdate, onCancelClick}) {
                    {...myArtItem, deathYear: e.target.value})}
                placeholder={'Année de décés'}
                prefix={<CalendarOutlined/>}
+               className={'art-input'}
+        />
+        <Input allowClear={true}
+               value={myArtItem.portrait}
+               onChange={e => setMyArtItem(
+                   {...myArtItem, portrait: e.target.value})}
+               placeholder={"Adresse d'une image"}
+               prefix={<PictureOutlined/>}
                className={'art-input'}
         />
         <TextArea rows={4}

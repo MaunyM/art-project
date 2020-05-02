@@ -2,8 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, Input, Rate, Select, Tooltip} from "antd";
 import {
   CalendarOutlined,
-  PictureOutlined,
-  UserOutlined
+  PictureOutlined
 } from "@ant-design/icons";
 
 import './ArtForm.scss';

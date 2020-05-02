@@ -29,8 +29,8 @@ function AdminPage() {
               Tableaux
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="painer" exact={true}>
-            <NavLink to="/admin/painter">
+          <Menu.Item key="painer" >
+            <NavLink to="/admin/painter" exact={true}>
               <UserOutlined/>
               Artistes
             </NavLink>
