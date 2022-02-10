@@ -10,7 +10,7 @@
     "antd": "^4.2.0",
     "aws-amplify": "^2.2.7",
     "lodash": "^4.17.15",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "rc-tween-one": "^2.6.8",
     "react": "^16.13.1",
     "react-device-detect": "^1.11.14",
